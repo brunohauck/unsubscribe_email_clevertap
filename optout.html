@@ -1,0 +1,93 @@
+
+
+<html>
+
+<head>
+    <title>Unsubscribe from email</title>
+
+    <!-- your WizRocket JS embed code goes here -->
+
+    <script type="text/javascript">
+        var clevertap = {
+            event: [],
+            profile: [],
+            region : 'us1',
+            account: [],
+            onUserLogin: [],
+            notifications: [],
+            privacy: []
+        };
+        // replace with the CLEVERTAP_ACCOUNT_ID with the actual ACCOUNT ID value from your Dashboard -> Settings page
+        clevertap.account.push({
+            "id": "XXX-XXX-XXX"
+        });
+        clevertap.privacy.push({
+            optOut: false
+        }); //set the flag to true, if the user of the device opts out of sharing their data
+        clevertap.privacy.push({
+            useIP: false
+        }); //set the flag to true, if the user agrees to share their IP data
+        (function () {
+            var wzrk = document.createElement('script');
+            wzrk.type = 'text/javascript';
+            wzrk.async = true;
+            wzrk.src = ('https:' == document.location.protocol ? 'https://d2r1yp2w7bby2u.cloudfront.net' :
+                'http://static.clevertap.com') + '/js/a.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(wzrk, s);
+        })();
+    </script>
+
+</head>
+
+<body>
+
+
+    <div>
+        <h4>I want to unsubscribe from future emails</h4>
+        <input type="text" id="email" readonly="readonly" />
+        <br/><br/>
+        <button onclick="unsubscribe()">Unsubscribe me</button><br/><br/>
+        <!-- button onclick="resubscribe()">Resubscribe</button -->
+    </div>
+
+
+
+    <script>
+        // on  page load, fetch the email id of the user.
+        window.onload = function() {
+            $WZRK_WR.getEmail();
+        };
+
+        // will be called after the email id of the user has been fetched
+        function wzrk_email_fetched(emailStr) {
+            document.getElementById("email").value = emailStr;
+        }
+
+        // will be called after the subscription preferences for the user have been updated
+        function wzrk_email_subscription(status) {
+            //status 0 : unsubscribed, status 1 : subscribed
+            // todo - you can show a success message to the user from here
+            var statusLabel = 'subscribed';
+            if (status == 0) {
+                statusLabel = 'unsubscribed';
+            }
+            alert("You've been " + statusLabel);
+
+        }
+
+        // call this function to unsubscribe the user
+        function unsubscribe() {
+            $WZRK_WR.unSubEmail();
+
+        }
+
+        // call this function to resubscribe the user
+        function resubscribe() {
+            $WZRK_WR.subEmail();
+        }
+    </script>
+
+</body>
+
+</html>
